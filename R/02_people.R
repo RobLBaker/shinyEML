@@ -2,11 +2,12 @@ peopleInput <- function(id) {
   layout_columns(
     card(
       card_header("Authors (email)"),
-      textInput(NS(id, "authors"),
-                placeholder = "Enter an email address ending in nps.gov",
-                label = NULL,
-                width = "100%",
-                updateOn = "blur"),
+      selectizeInput("authors",
+                     label = NULL,
+                     multiple = TRUE,
+                     choices = NULL,
+                     options = list(create = TRUE),
+                     width = "100%"),
       helpText("Authors must be individuals (not organizations) and must ",
                "have ORCIDs. See NPS IMD guidance on ",
                a("best practices for authorship",
@@ -15,25 +16,9 @@ peopleInput <- function(id) {
                              "-authorship.aspx?csf=1&web=1&e=ll809Q"),
                target = "_blank"),
                " for additional information."),
-      actionButton("author_help", "Show/Hide Help", class = "btn-info btn-sm"),
-      
-      div(
-        id = "author_help_section",
-        class = "collapse mt-2",
-        helpText("Debating show/hide help functionality. I like the cleaner, ",
-                 "simpler look of hidden help text. But I also want people to ",
-                 HTML("<b>freaking see</b>"),
-                 " the help text!")
-      ),
       reactable::reactableOutput("valid_owners", width = "100%"),
       fill = FALSE
     ),
-    # Small script to toggle collapse
-    tags$script(HTML("
-    $('#author_help').on('click', function() {
-      $('#author_help_section').collapse('toggle');
-    });
-  ")),
     card(
       card_header("Contacts"),
       textInput(NS(id, "contacts"),
