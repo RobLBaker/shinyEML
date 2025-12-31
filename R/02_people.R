@@ -74,6 +74,24 @@ peopleInput <- function(id) {
 
 peopleServer <- function(id) {
   moduleServer(id, function(input, output, session) {
+    
+    #---- Validate emails of reference owners ----
+    valid_owners <- reactive({
+      if (length(input$owners) > 0) {
+        valid_owners <- NPSdatastore::active_directory_lookup(emails = input$owners) |>
+          dplyr::mutate(Valid_TF = found & !disabled) |>
+          dplyr::mutate(Valid = ifelse(Valid_TF, "\u2713", "\u2715")) |>
+          dplyr::select(Valid_TF, Valid, Email = searchTerm, Name = cn)
+      } else {
+        valid_owners <- NA
+      }
+      valid_owners
+    }) |>
+      bindEvent(input$owners)
+    
+    output$valid_owners <- renderReactable(reactable(valid_owners()[, c("Valid", "Email", "Name")]))
+    
+    
     reactive({
       output$validated_authors <- renderText({
         #require input before proceeding with output:
