@@ -1,7 +1,7 @@
 peopleInput <- function(id) {
   layout_columns(
     card(
-      card_header("Authors (email)"),
+      card_header("NPS Authors (email)"),
       selectizeInput("authors",
                      label = NULL,
                      multiple = TRUE,
@@ -16,7 +16,7 @@ peopleInput <- function(id) {
                              "-authorship.aspx?csf=1&web=1&e=ll809Q"),
                target = "_blank"),
                " for additional information."),
-      reactable::reactableOutput("valid_owners", width = "100%"),
+      reactable::reactableOutput("valid_authors", width = "100%"),
       fill = FALSE
     ),
     card(
