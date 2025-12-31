@@ -25,7 +25,8 @@ peopleInput <- function(id) {
                  HTML("<b>freaking see</b>"),
                  " the help text!")
       ),
-      textOutput("validated_authors"),
+      reactable::reactableOutput("valid_owners", width = "100%"),
+      fill = FALSE
     ),
     # Small script to toggle collapse
     tags$script(HTML("
